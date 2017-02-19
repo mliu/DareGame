@@ -44,7 +44,7 @@ var app = new Vue({
     dareParticipants: 1,
     dareAdded: false,
     error: "",
-    countdown: 1,
+    countdown: 30,
     dareCountdown: 30,
     penalty: false,
     chosenDare: null,
