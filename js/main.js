@@ -73,7 +73,7 @@ var app = new Vue({
 
   methods: {
     complete: function() {
-        this.countdown = 300;
+        this.countdown = 100;
         for (var i = 0; i < this.participants.length; i++) {
             var idx = this.names.indexOf(this.participants[i]);
             if (idx >= 0) {
@@ -86,7 +86,7 @@ var app = new Vue({
             this.dareCountdown--;
             if (this.dareCountdown === 0) {
                 this.penalty = true;
-                this.dareCountdown = 30;
+                this.dareCountdown = 60;
                 var d = getRandom(this.dares);
                 while (d.text === this.chosenDare.text) {
                     d = getRandom(this.dares);
@@ -101,7 +101,7 @@ var app = new Vue({
                     return;
                 }
                 this.penalty = false;
-                this.dareCountdown = 30;
+                this.dareCountdown = 60;
                 // Choose a dare
                 this.chosenDare = getRandom(this.dares);
 
