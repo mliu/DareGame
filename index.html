@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Dare Party!</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="vendor/moment.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid" style="padding-top: 10px" id="main">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="text-center"><strong><small>Players</small></strong></div>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-bind:class="{ disabled: !person.isActive }" v-for="person in names">
+                            {{ person.name }}
+                            <span class="pull-right">
+                                <span class="badge">{{ person.dareCount }} dares</span>
+                                <button class="btn btn-xs btn-default glyphicon" v-bind:class="{ 'glyphicon-ban-circle': person.isActive, 'glyphicon-ok': !person.isActive }" @click="person.isActive = !person.isActive"></button>
+                                <button class="btn btn-xs btn-default glyphicon glyphicon-trash" @click="deletePerson(person)"></button>
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Enter Name" v-model="newName">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" @click="addPerson()">Add</button>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="text-center"><strong><small>Add a Dare</small></strong></div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="form-group">
+                                <textarea type="text" rows="3" class="form-control" placeholder="Enter Dare" v-model="dareText" @blur="{{ dareAdded = false }}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="participants"># of Participants</label>
+                                <input type="number" id="participants" class="form-control" v-model="dareParticipants" placeholder="1, 2, 3, etc..." @blur="{{ dareAdded = false }}">
+                            </div>
+                            <button type="button" class="btn btn-default btn-block" @click="addDare()">Add Dare</button>
+                            <br>
+                            <div class="text-success text-center" v-if="dareAdded"><small>Dare Added!</small></div>
+                            <div class="text-danger text-center" v-if="error.length"><small>{{ error }}</small></div>
+                        </li>
+                    </ul>
+
+                    <ul class="list-group" style="margin-bottom: 60px" v-if="showDares">
+                        <li class="list-group-item" v-for="d in dares">
+                            {{d.participants}} - {{d.text}}
+                            <span class="pull-right">
+                                <button class="btn btn-xs btn-default glyphicon glyphicon-trash" @click="deleteDare(d)"></button>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-8 text-center">
+                    <div v-if="countdown > 0">
+                        <h1><strong>NEXT DARE</strong></h1>
+                        <div class="timer" v-bind:class="{ 'text-danger': countdown < 30 }">{{ Math.floor(countdown / 60) }}:<span v-if="(countdown % 60) < 10">0</span>{{ countdown % 60 }}</div>
+                    </div>
+                    <div v-if="countdown == 0 && this.chosenDare">
+                        <h1><strong>TIME TO COMPLETE</strong></h1>
+                        <div class="timer" v-bind:class="{ 'text-danger': dareCountdown < 30 }">{{ Math.floor(dareCountdown / 60) }}:<span v-if="(dareCountdown % 60) < 10">0</span>{{ dareCountdown % 60 }}</div>
+                        <button type="button" class="btn btn-primary btn-lg" @click="complete()">COMPLETED</button>
+                        <h1 v-if="penalty" class="text-danger">PENALTY!</h1>
+                        <h1 class="dare-text"><strong>{{ chosenDare.text }}</strong></h1>
+                        <div v-for="p in participants">
+                            <h2>{{ p.name }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-xs btn-default show-dares" v-if="!showDares" @click="showDares = true">Edit Dares</button>
+            <button type="button" class="btn btn-xs btn-default show-dares" v-if="showDares" @click="showDares = false">Hide Dares</button>
+        </div>
+
+
+        <script src="js/main.js"></script>
+    </body>
+</html>

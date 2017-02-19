@@ -1,0 +1,16 @@
+.timer {
+    margin-top: -90px;
+    margin-bottom: -50px;
+    font-size: 300px;
+    font-weight: bold;
+}
+
+.show-dares {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+.dare-text {
+    font-size: 60px;
+}
