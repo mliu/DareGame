@@ -23,7 +23,10 @@
                             {{ person.name }}
                             <span class="pull-right">
                                 <span class="badge">{{ person.dareCount }} dares</span>
-                                <button class="btn btn-xs btn-default glyphicon" v-bind:class="{ 'glyphicon-ban-circle': person.isActive, 'glyphicon-ok': !person.isActive }" @click="person.isActive = !person.isActive"></button>
+                                <button class="btn btn-xs btn-default" @click="person.isActive = !person.isActive">
+                                  <span class="glyphicon" v-bind:class="{ 'glyphicon-ban-circle': person.isActive, 'glyphicon-ok': !person.isActive }"></span>
+                                  {{ person.isActive ? 'Mark Inactive' : 'Mark Playing' }}
+                                </button>
                                 <button class="btn btn-xs btn-default glyphicon glyphicon-trash" @click="deletePerson(person)"></button>
                             </span>
                         </li>
@@ -76,6 +79,9 @@
                         <div v-for="p in participants">
                             <h2>{{ p.name }}</h2>
                         </div>
+                    </div>
+                    <div v-if="this.names.length === 0 || this.dares.length === 0">
+                      <h1>Must have at least one participant and one dare to play</h1>
                     </div>
                 </div>
             </div>

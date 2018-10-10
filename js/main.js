@@ -82,6 +82,10 @@ var app = new Vue({
       }
     },
     tick: function () {
+      if (this.names.length === 0 || this.dares.length === 0) {
+        return;
+      }
+
       if (this.countdown === 0) {
         this.dareCountdown--;
         if (this.dareCountdown === 0) {
